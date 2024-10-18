@@ -1,4 +1,4 @@
-import DownloadIcon from "@mui/icons-material/Download";
+import ArchiveIcon from "@mui/icons-material/Archive";
 import ImageIcon from "@mui/icons-material/Image";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -54,7 +54,12 @@ const NoteCard = ({ noteDetails, updateList, useFor }) => {
           <PersonAddIcon className="icon" aria-label="Add Person" />
           <PaletteIcon className="icon" aria-label="Palette" />
           <ImageIcon className="icon" aria-label="Image" />
-          <DownloadIcon
+          {/* <DownloadIcon
+            className="icon"
+            aria-label="Download"
+            onClick={(event) => handleNoteIconsClick("archive", noteDetails.id)}
+          /> */}
+          <ArchiveIcon
             className="icon"
             aria-label="Download"
             onClick={(event) => handleNoteIconsClick("archive", noteDetails.id)}
@@ -85,6 +90,7 @@ const NoteCard = ({ noteDetails, updateList, useFor }) => {
           updateList={updateList}
           openAddNote={true}
           noteDetails={noteDetails}
+          action="update"
         />
       </Modal>
     </div>

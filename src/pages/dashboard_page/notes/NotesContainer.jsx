@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { addNoteApi, fetchAllNotes } from "../../../Services/Api";
+import {
+  addNoteApi,
+  fetchAllNotes,
+  updateNoteApi,
+} from "../../../Services/Api";
 import AddNote from "./AddNote";
 import NoteCard from "./NoteCard";
 
 function NotesContainer() {
   const [noteslist, setNoteList] = useState([]);
 
+  // for displaying the notes in notescontainer
   useEffect(() => {
-    // const savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
-    // const response = fetchAllNotes();
-    // console.log(response.data);
-    // setNoteList(savedNotes);
     async function fetchNotes() {
       try {
         const data = await fetchAllNotes();
@@ -24,20 +25,33 @@ function NotesContainer() {
     fetchNotes();
   }, []);
 
-  async function handleUpdateList(data, action) {
+  // for handling all the actions
+  async function handleUpdateList(data, action, noteId = null) {
     if (action === "add") {
       const response = await addNoteApi(data);
       //   console.log(response);
       setNoteList([response.data, ...noteslist]);
     } else if (action === "archive") {
       setNoteList(noteslist.filter((note) => note.id !== data));
+    } else if (action === "update") {
+      // setNoteList([]);
+      // console.log(data.noteDetails.id);
+      const response = await updateNoteApi(noteId.id, data);
+      // console.log(response);
+
+      // map pass by value
+      setNoteList(
+        noteslist.map((note) =>
+          note.id === response.data.id ? response.data : note
+        )
+      );
     }
   }
 
   return (
     <>
       {/* Only one AddNote component */}
-      <AddNote updateList={handleUpdateList} />
+      <AddNote updateList={handleUpdateList} action="add" />
       {noteslist.map((note, index) => (
         <NoteCard
           useFor="note"

@@ -40,7 +40,7 @@ export const fetchAllNotes = async () => {
 };
 
 export const toogleArchiveStatus = async (noteId) => {
-  console.log(token);
+  // console.log(token);
   const response = await axios.put(
     `${API_BASE_URL}notes/${noteId}/is_archive/`,
     "",
@@ -51,5 +51,28 @@ export const toogleArchiveStatus = async (noteId) => {
       },
     }
   );
+  return response.data;
+};
+
+// fetching all the notes which are archived
+export const fetchArchivedNotes = async () => {
+  // console.log(token);
+  const response = await axios.get(`${API_BASE_URL}notes/archived/`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+// updating the note api
+export const updateNoteApi = async (noteId, payload) => {
+  const response = await axios.put(`${API_BASE_URL}notes/${noteId}/`, payload, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 };
